@@ -1,0 +1,24 @@
+[versions]
+spring-boot = "3.5.13"
+spring-dependency-management = "1.1.7"
+resilience4j = "2.4.0"
+
+[libraries]
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
+spring-boot-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+liquibase-core = { module = "org.liquibase:liquibase-core" }
+resilience4j-spring-boot3 = { module = "io.github.resilience4j:resilience4j-spring-boot3", version.ref = "resilience4j" }
+lombok = { module = "org.projectlombok:lombok" }
+h2 = { module = "com.h2database:h2" }
+micrometer-registry-otlp = { module = "io.micrometer:micrometer-registry-otlp" }
+micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }

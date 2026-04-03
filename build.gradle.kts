@@ -1,12 +1,8 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.5.13"
-    id("io.spring.dependency-management") version "1.1.7"
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
 }
-
-group = "com.ohpenl.midoffice"
-version = "0.0.1-SNAPSHOT"
-description = "configuration-tracker"
 
 java {
     toolchain {
@@ -18,31 +14,24 @@ repositories {
     mavenCentral()
 }
 
-extra["springCloudVersion"] = "2025.0.2"
-
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.liquibase:liquibase-core")
-    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
-    compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.h2database:h2")
-    runtimeOnly("io.micrometer:micrometer-registry-otlp")
-    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
-    annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testCompileOnly("org.projectlombok:lombok")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testAnnotationProcessor("org.projectlombok:lombok")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-    }
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.validation)
+    implementation(libs.spring.boot.web)
+    implementation(libs.liquibase.core)
+    implementation(libs.resilience4j.spring.boot3)
+    compileOnly(libs.lombok)
+    runtimeOnly(libs.h2)
+    runtimeOnly(libs.micrometer.registry.otlp)
+    runtimeOnly(libs.micrometer.registry.prometheus)
+    annotationProcessor(libs.lombok)
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.testcontainers)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testCompileOnly(libs.lombok)
+    testRuntimeOnly(libs.junit.platform.launcher)
+    testAnnotationProcessor(libs.lombok)
 }
 
 tasks.withType<Test> {
