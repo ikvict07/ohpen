@@ -1,5 +1,6 @@
 package com.ohpenl.midoffice.configurationtracker.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -16,14 +17,16 @@ import java.time.LocalDateTime;
 @Table(name = "configuration_changes")
 public class ConfigurationChange {
     @Id
-    private Long id;
+    private Long id = 0L;
 
     @ManyToOne
     private ConfigurationType configType;
 
-    private String previousValue;
-    private String newValue;
+    @Column(nullable = false)
+    private String previousValue = "";
+    @Column(nullable = false)
+    private String newValue = "";
 
     @CreationTimestamp
-    private LocalDateTime timestamp;
+    private LocalDateTime timestamp = LocalDateTime.now();
 }

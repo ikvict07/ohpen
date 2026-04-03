@@ -2,6 +2,8 @@
 spring-boot = "3.5.13"
 spring-dependency-management = "1.1.7"
 resilience4j = "2.4.0"
+openapi-generator = "7.12.0"
+springdoc = "2.8.6"
 java = "21"
 
 [libraries]
@@ -19,7 +21,9 @@ micrometer-registry-otlp = { module = "io.micrometer:micrometer-registry-otlp" }
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+springdoc-openapi-webmvc = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-generator" }

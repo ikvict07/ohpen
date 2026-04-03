@@ -1,6 +1,6 @@
 package com.ohpenl.midoffice.configurationtracker.enums;
 
-public enum DataType {
+public enum ConfigurationDataType {
     STRING,
     NUMBER,
     BOOLEAN
