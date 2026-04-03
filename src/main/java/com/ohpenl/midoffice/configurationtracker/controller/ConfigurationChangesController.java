@@ -35,6 +35,12 @@ public class ConfigurationChangesController implements ConfigurationChangesApi {
         return ResponseEntity.ok(ConfigurationChangeMapper.toApi(result));
     }
 
+    @Override
+    public ResponseEntity<Void> deleteConfigurationChange(Long id) {
+        configurationChangesService.deleteConfigurationChange(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @Timed("configuration_changes.get")
     @Counted("configuration_changes.get.count")
     @Override

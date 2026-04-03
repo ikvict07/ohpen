@@ -35,6 +35,17 @@ public class ConfigurationChangesService {
         return configurationChangeRepository.save(newChange);
     }
 
+    @Transactional
+    public void deleteConfigurationChange(Long id) {
+        ConfigurationChange change = configurationChangeRepository.findById(id).orElseThrow(() -> new NotFoundException("Configuration change not found with id: " + id));
+        ConfigurationType configType = change.getConfigType();
+        ConfigurationChange latestChange = configurationChangeRepository.findLatestByConfigType(configType.getName())
+                .orElseThrow(() -> new IllegalStateException("No previous configuration change found for configuration type: " + configType.getName()));
+        if (latestChange.getId().equals(change.getId())) {
+            configurationChangeRepository.delete(latestChange);
+        }
+    }
+
     public ConfigurationChange getConfigurationChange(Long id) {
         return configurationChangeRepository.findById(id).orElseThrow(() -> new NotFoundException("Configuration change not found with id: " + id));
     }

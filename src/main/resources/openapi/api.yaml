@@ -167,6 +167,19 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ProblemDetail"
+    delete:
+      tags: [ConfigurationChanges]
+      operationId: deleteConfigurationChange
+      summary: Delete configuration change by id
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
 
 components:
   schemas:
