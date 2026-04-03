@@ -1,0 +1,74 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1775228571420-1
+      author: antonhorobets
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_configuration_changes
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: config_type_id
+                  type: BIGINT
+              - column:
+                  name: previous_value
+                  type: VARCHAR(255)
+              - column:
+                  name: new_value
+                  type: VARCHAR(255)
+              - column:
+                  name: timestamp
+                  type: DATETIME
+            tableName: configuration_changes
+  - changeSet:
+      id: 1775228571420-2
+      author: antonhorobets
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_configuration_type
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: data_type
+                  type: VARCHAR(255)
+            tableName: configuration_type
+  - changeSet:
+      id: 1775228571420-3
+      author: antonhorobets
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: uc_configuration_type_name
+            tableName: configuration_type
+  - changeSet:
+      id: 1775228571420-4
+      author: antonhorobets
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: config_type_id
+            baseTableName: configuration_changes
+            constraintName: FK_CONFIGURATION_CHANGES_ON_CONFIGTYPE
+            referencedColumnNames: id
+            referencedTableName: configuration_type
+
