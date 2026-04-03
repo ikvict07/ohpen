@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ConfigurationTypeService {
+public final class ConfigurationTypeService {
     private final ConfigurationTypeRepository configurationTypeRepository;
     private final ConfigurationTypeValidator configurationTypeValidator;
 

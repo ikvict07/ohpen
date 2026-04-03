@@ -8,6 +8,7 @@ import com.ohpenl.midoffice.configurationtracker.service.ConfigurationTypeServic
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/configuration-types")
 @RequiredArgsConstructor
+@Validated
 public class ConfigurationTypesController implements ConfigurationTypesApi {
 
     private final ConfigurationTypeService configurationTypeService;
