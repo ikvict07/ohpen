@@ -40,6 +40,9 @@ public class ConfigurationChangesService {
     }
 
     public Page<ConfigurationChange> listConfigurationChanges(Pageable page, @Nullable String configTypeName) {
+        if (configTypeName == null) {
+            return configurationChangeRepository.findAll(page);
+        }
         return configurationChangeRepository.findAllByConfigType_Name(configTypeName, page);
     }
 

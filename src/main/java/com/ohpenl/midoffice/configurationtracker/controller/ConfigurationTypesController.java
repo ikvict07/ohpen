@@ -5,7 +5,8 @@ import com.ohpenl.midoffice.configurationtracker.api.model.ConfigurationTypeResp
 import com.ohpenl.midoffice.configurationtracker.api.model.CreateConfigurationTypeRequest;
 import com.ohpenl.midoffice.configurationtracker.mapper.DataTypeMapper;
 import com.ohpenl.midoffice.configurationtracker.service.ConfigurationTypeService;
-import jakarta.validation.constraints.NotNull;
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,21 +23,27 @@ public class ConfigurationTypesController implements ConfigurationTypesApi {
 
     private final ConfigurationTypeService configurationTypeService;
 
+    @Timed("configuration_types.create")
+    @Counted("configuration_types.create.count")
     @Override
-    public ResponseEntity<ConfigurationTypeResponse> createConfigurationType(@NotNull CreateConfigurationTypeRequest createConfigurationTypeRequest) {
+    public ResponseEntity<ConfigurationTypeResponse> createConfigurationType(CreateConfigurationTypeRequest createConfigurationTypeRequest) {
         var domainDataType = DataTypeMapper.toDomain(createConfigurationTypeRequest.getDataType());
         var result = configurationTypeService.createConfigurationType(createConfigurationTypeRequest.getName(), domainDataType);
         return ResponseEntity.ok()
                 .body(DataTypeMapper.toApi(result));
     }
 
+    @Timed("configuration_types.get")
+    @Counted("configuration_types.get.count")
     @Override
-    public ResponseEntity<ConfigurationTypeResponse> getConfigurationType(@NotNull Long id) {
+    public ResponseEntity<ConfigurationTypeResponse> getConfigurationType(Long id) {
         var result = configurationTypeService.getConfigurationType(id);
         return ResponseEntity.ok()
                 .body(DataTypeMapper.toApi(result));
     }
 
+    @Timed("configuration_types.list")
+    @Counted("configuration_types.list.count")
     @Override
     public ResponseEntity<List<ConfigurationTypeResponse>> listConfigurationTypes() {
         return ResponseEntity.ok()

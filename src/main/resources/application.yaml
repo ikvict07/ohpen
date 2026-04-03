@@ -1,8 +1,37 @@
-spring.application.name: configuration-tracker
 spring:
+  application:
+    name: configuration-tracker
+  datasource:
+    url: jdbc:h2:mem:configuration-tracker;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} trace_id=%X{traceId} span_id=%X{spanId} - %msg%n"
+
 management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        prometheus: metrics
+      exposure:
+        include: health, prometheus, info
+  tracing:
+    sampling:
+      probability: 1.0
   otlp:
     metrics:
       export:

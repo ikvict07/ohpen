@@ -6,7 +6,8 @@ import com.ohpenl.midoffice.configurationtracker.api.model.ConfigurationChangeRe
 import com.ohpenl.midoffice.configurationtracker.api.model.CreateConfigurationChangeRequest;
 import com.ohpenl.midoffice.configurationtracker.mapper.ConfigurationChangeMapper;
 import com.ohpenl.midoffice.configurationtracker.service.ConfigurationChangesService;
-import jakarta.validation.constraints.NotNull;
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,10 @@ public class ConfigurationChangesController implements ConfigurationChangesApi {
 
     private final ConfigurationChangesService configurationChangesService;
 
+    @Timed("configuration_changes.create")
+    @Counted("configuration_changes.create.count")
     @Override
-    public ResponseEntity<ConfigurationChangeResponse> createConfigurationChange(@NotNull CreateConfigurationChangeRequest createConfigurationChangeRequest) {
+    public ResponseEntity<ConfigurationChangeResponse> createConfigurationChange(CreateConfigurationChangeRequest createConfigurationChangeRequest) {
         var result = configurationChangesService.createConfigurationChange(
                 createConfigurationChangeRequest.getConfigTypeId(),
                 createConfigurationChangeRequest.getPreviousValue(),
@@ -32,12 +35,16 @@ public class ConfigurationChangesController implements ConfigurationChangesApi {
         return ResponseEntity.ok(ConfigurationChangeMapper.toApi(result));
     }
 
+    @Timed("configuration_changes.get")
+    @Counted("configuration_changes.get.count")
     @Override
-    public ResponseEntity<ConfigurationChangeResponse> getConfigurationChange(@NotNull Long id) {
+    public ResponseEntity<ConfigurationChangeResponse> getConfigurationChange(Long id) {
         var found = configurationChangesService.getConfigurationChange(id);
         return ResponseEntity.ok(ConfigurationChangeMapper.toApi(found));
     }
 
+    @Timed("configuration_changes.list")
+    @Counted("configuration_changes.list.count")
     @Override
     public ResponseEntity<ConfigurationChangePage> listConfigurationChanges(String configTypeName, Integer page, Integer size, String sort) {
         var resultPage = configurationChangesService.listConfigurationChanges(PageRequest.of(page, size), configTypeName);

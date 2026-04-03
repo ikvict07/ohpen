@@ -23,7 +23,7 @@ public final class ConfigurationChangeValidator {
                 .orElseThrow(() -> new IllegalStateException("No validator found for configuration type: " + configurationChange.getConfigType().getName()));
 
         if (!validator.isValid(configurationChange.getNewValue())) {
-            throw new BadRequestException("Invalid value" + configurationChange.getNewValue() + "for configuration type: " + configurationChange.getConfigType().getName());
+            throw new BadRequestException("Invalid value " + configurationChange.getNewValue() + " for configuration type: " + configurationChange.getConfigType().getName());
         }
     }
 
@@ -37,8 +37,8 @@ public final class ConfigurationChangeValidator {
 
         if (!Objects.equals(actualPrevious, claimedPrevious)) {
             throw new ConflictException(
-                "Previous value mismatch: expected '%s' but current is '%s'"
-                    .formatted(claimedPrevious, actualPrevious)
+                    "Previous value mismatch: expected '%s' but current is '%s'"
+                            .formatted(claimedPrevious, actualPrevious)
             );
         }
     }
