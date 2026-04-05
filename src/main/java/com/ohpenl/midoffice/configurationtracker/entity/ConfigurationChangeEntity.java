@@ -2,6 +2,8 @@ package com.ohpenl.midoffice.configurationtracker.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -18,12 +20,12 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "configuration_changes")
 @NoArgsConstructor
-public class ConfigurationChange {
+public class ConfigurationChangeEntity {
     @Id
     private Long id = 0L;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private ConfigurationType configType;
+    private ConfigurationTypeEntity configType;
 
     private String previousValue = null;
     @Column(nullable = false)
@@ -32,9 +34,7 @@ public class ConfigurationChange {
     @CreationTimestamp
     private LocalDateTime timestamp = LocalDateTime.now();
 
-    public ConfigurationChange(ConfigurationType configType, String previousValue, String newValue) {
-        this.configType = configType;
-        this.previousValue = previousValue;
-        this.newValue = newValue;
-    }
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ConfigurationChangeAction action;
 }

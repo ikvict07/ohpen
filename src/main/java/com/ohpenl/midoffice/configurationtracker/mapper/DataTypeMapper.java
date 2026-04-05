@@ -2,8 +2,9 @@ package com.ohpenl.midoffice.configurationtracker.mapper;
 
 import com.ohpenl.midoffice.configurationtracker.api.model.ConfigurationTypeResponse;
 import com.ohpenl.midoffice.configurationtracker.api.model.DataType;
-import com.ohpenl.midoffice.configurationtracker.entity.ConfigurationType;
-import com.ohpenl.midoffice.configurationtracker.enums.ConfigurationDataType;
+import com.ohpenl.midoffice.configurationtracker.domain.ConfigurationDataType;
+import com.ohpenl.midoffice.configurationtracker.domain.ConfigurationType;
+import com.ohpenl.midoffice.configurationtracker.entity.ConfigurationTypeEntity;
 
 public final class DataTypeMapper {
 
@@ -26,10 +27,17 @@ public final class DataTypeMapper {
         };
     }
 
-    public static ConfigurationTypeResponse toApi(ConfigurationType configurationType) {
+    public static ConfigurationTypeResponse toApi(ConfigurationTypeEntity configurationType) {
         return new ConfigurationTypeResponse()
                 .id(configurationType.getId())
                 .name(configurationType.getName())
                 .dataType(toApi(configurationType.getDataType()));
+    }
+
+    public static ConfigurationType toDomain(ConfigurationTypeEntity configurationTypeEntity) {
+        return new ConfigurationType(
+                configurationTypeEntity.getDataType(),
+                configurationTypeEntity.getName()
+        );
     }
 }

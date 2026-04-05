@@ -1,6 +1,6 @@
 package com.ohpenl.midoffice.configurationtracker.entity;
 
-import com.ohpenl.midoffice.configurationtracker.enums.ConfigurationDataType;
+import com.ohpenl.midoffice.configurationtracker.domain.ConfigurationDataType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "configuration_type")
 @NoArgsConstructor
-public class ConfigurationType {
+public class ConfigurationTypeEntity {
     @Id
     private Long id = 0L;
 
@@ -27,7 +27,7 @@ public class ConfigurationType {
     @Column(nullable = false)
     private ConfigurationDataType dataType = ConfigurationDataType.STRING;
 
-    public ConfigurationType(String name, ConfigurationDataType dataType) {
+    public ConfigurationTypeEntity(String name, ConfigurationDataType dataType) {
         this.name = name;
         this.dataType = dataType;
     }

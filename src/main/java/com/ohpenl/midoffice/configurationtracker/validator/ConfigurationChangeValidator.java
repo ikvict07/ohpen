@@ -1,6 +1,6 @@
 package com.ohpenl.midoffice.configurationtracker.validator;
 
-import com.ohpenl.midoffice.configurationtracker.entity.ConfigurationChange;
+import com.ohpenl.midoffice.configurationtracker.entity.ConfigurationChangeEntity;
 import com.ohpenl.midoffice.configurationtracker.problem.exception.BadRequestException;
 import com.ohpenl.midoffice.configurationtracker.problem.exception.ConflictException;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +15,10 @@ public final class ConfigurationChangeValidator {
 
     private final List<DataValidator> validators;
 
-    public void validateDataTypes(ConfigurationChange configurationChange) {
+    public void validateDataTypes(ConfigurationChangeEntity configurationChange) {
         var validator = validators
                 .stream()
-                .filter((e) -> e.dataType() == configurationChange.getConfigType().getDataType())
+                .filter(e -> e.dataType() == configurationChange.getConfigType().getDataType())
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No validator found for configuration type: " + configurationChange.getConfigType().getName()));
 
@@ -27,7 +27,7 @@ public final class ConfigurationChangeValidator {
         }
     }
 
-    public void validatePreviousValue(ConfigurationChange oldChange, ConfigurationChange newChange) {
+    public void validatePreviousValue(ConfigurationChangeEntity oldChange, ConfigurationChangeEntity newChange) {
         if (oldChange == null && newChange.getPreviousValue() == null) {
             return;
         }

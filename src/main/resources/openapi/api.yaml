@@ -136,7 +136,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ProblemDetail"
         "404":
-          description: ConfigurationType not found
+          description: ConfigurationTypeEntity not found
           content:
             application/problem+json:
               schema:
