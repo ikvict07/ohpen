@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1712400000000-2
+      author: antonhorobets
+      changes:
+        - addColumn:
+            tableName: configuration_changes
+            columns:
+              - column:
+                  name: version
+                  type: BIGINT
+                  defaultValueNumeric: "0"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: action
+                  type: VARCHAR(255)
+                  defaultValue: ADD
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: configuration_changes
+            columnNames: config_type_id, version
+            constraintName: uc_config_change_version

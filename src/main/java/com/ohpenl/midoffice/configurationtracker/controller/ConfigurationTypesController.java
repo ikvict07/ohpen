@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/configuration-types")
+@RequestMapping("/")
 @RequiredArgsConstructor
 @Validated
 public class ConfigurationTypesController implements ConfigurationTypesApi {

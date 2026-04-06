@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -22,14 +24,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ConfigurationChangeEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = 0L;
+
+    private Long version;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private ConfigurationTypeEntity configType;
 
     private String previousValue = null;
-    @Column(nullable = false)
-    private String newValue = "";
+    private String newValue = null;
 
     @CreationTimestamp
     private LocalDateTime timestamp = LocalDateTime.now();
@@ -37,4 +41,11 @@ public class ConfigurationChangeEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ConfigurationChangeAction action;
+
+    public ConfigurationChangeEntity(ConfigurationTypeEntity configType, String previousValue, String newValue, ConfigurationChangeAction action) {
+        this.configType = configType;
+        this.previousValue = previousValue;
+        this.newValue = newValue;
+        this.action = action;
+    }
 }

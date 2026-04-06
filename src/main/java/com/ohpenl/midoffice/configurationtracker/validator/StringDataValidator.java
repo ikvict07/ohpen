@@ -1,6 +1,6 @@
 package com.ohpenl.midoffice.configurationtracker.validator;
 
-import com.ohpenl.midoffice.configurationtracker.enums.ConfigurationDataType;
+import com.ohpenl.midoffice.configurationtracker.domain.ConfigurationDataType;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

@@ -1,13 +1,11 @@
 package com.ohpenl.midoffice.configurationtracker.validator;
 
-import com.ohpenl.midoffice.configurationtracker.entity.ConfigurationChangeEntity;
+import com.ohpenl.midoffice.configurationtracker.domain.ConfigurationType;
 import com.ohpenl.midoffice.configurationtracker.problem.exception.BadRequestException;
-import com.ohpenl.midoffice.configurationtracker.problem.exception.ConflictException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -15,31 +13,16 @@ public final class ConfigurationChangeValidator {
 
     private final List<DataValidator> validators;
 
-    public void validateDataTypes(ConfigurationChangeEntity configurationChange) {
+    public void validateDataTypes(String newValue, ConfigurationType configurationType) {
+        if (newValue == null) return;
         var validator = validators
                 .stream()
-                .filter(e -> e.dataType() == configurationChange.getConfigType().getDataType())
+                .filter(e -> e.dataType().name().equals(configurationType.dataType().name()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No validator found for configuration type: " + configurationChange.getConfigType().getName()));
+                .orElseThrow(() -> new IllegalStateException("No validator found for configuration type: " + configurationType.name()));
 
-        if (!validator.isValid(configurationChange.getNewValue())) {
-            throw new BadRequestException("Invalid value " + configurationChange.getNewValue() + " for configuration type: " + configurationChange.getConfigType().getName());
-        }
-    }
-
-    public void validatePreviousValue(ConfigurationChangeEntity oldChange, ConfigurationChangeEntity newChange) {
-        if (oldChange == null && newChange.getPreviousValue() == null) {
-            return;
-        }
-
-        String actualPrevious = oldChange == null ? null : oldChange.getNewValue();
-        String claimedPrevious = newChange.getPreviousValue();
-
-        if (!Objects.equals(actualPrevious, claimedPrevious)) {
-            throw new ConflictException(
-                    "Previous value mismatch: expected '%s' but current is '%s'"
-                            .formatted(claimedPrevious, actualPrevious)
-            );
+        if (!validator.isValid(newValue)) {
+            throw new BadRequestException("Invalid value " + newValue + " for configuration type: " + configurationType.name() + " with data type: " + configurationType.dataType().name());
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.ohpenl.midoffice.configurationtracker.validator;
 
-import com.ohpenl.midoffice.configurationtracker.enums.ConfigurationDataType;
+import com.ohpenl.midoffice.configurationtracker.domain.ConfigurationDataType;
 import jakarta.validation.constraints.NotNull;
 
 public abstract class DataValidator {

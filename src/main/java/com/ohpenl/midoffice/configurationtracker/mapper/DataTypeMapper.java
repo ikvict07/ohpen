@@ -34,10 +34,19 @@ public final class DataTypeMapper {
                 .dataType(toApi(configurationType.getDataType()));
     }
 
+    public static ConfigurationTypeResponse toApi(ConfigurationType configurationType) {
+        return new ConfigurationTypeResponse()
+                .id(configurationType.id())
+                .name(configurationType.name())
+                .dataType(toApi(configurationType.dataType()));
+    }
+
     public static ConfigurationType toDomain(ConfigurationTypeEntity configurationTypeEntity) {
         return new ConfigurationType(
                 configurationTypeEntity.getDataType(),
-                configurationTypeEntity.getName()
+                configurationTypeEntity.getName(),
+                configurationTypeEntity.getId(),
+                0L
         );
     }
 }

@@ -4,6 +4,7 @@ import com.ohpenl.midoffice.configurationtracker.problem.advice.GeneralException
 import com.ohpenl.midoffice.configurationtracker.problem.exception.ServiceException;
 import com.ohpenl.midoffice.configurationtracker.problem.processor.*;
 import com.ohpenl.midoffice.configurationtracker.problem.registry.ProcessorsRegistry;
+import jakarta.persistence.OptimisticLockException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -56,6 +57,13 @@ public class ExceptionHandlingConfiguration {
     public HandlerMethodValidationExceptionProcessor handlerMethodValidationExceptionProcessor(ProcessorsRegistry registry) {
         HandlerMethodValidationExceptionProcessor processor = new HandlerMethodValidationExceptionProcessor();
         registry.register(processor, HandlerMethodValidationException.class);
+        return processor;
+    }
+
+    @Bean
+    public OptimisticLockExceptionProcessor optimisticLockExceptionProcessor(ProcessorsRegistry registry) {
+        OptimisticLockExceptionProcessor processor = new OptimisticLockExceptionProcessor();
+        registry.register(processor, OptimisticLockException.class);
         return processor;
     }
 
