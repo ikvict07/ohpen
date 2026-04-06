@@ -23,19 +23,19 @@ public class NotificationService {
     @CircuitBreaker(name = "notification")
     public void notify(ConfigurationChange change) {
         log.info("Sending notification for change: {}", change.getId());
-        
+
         String action = switch (change) {
             case AddConfigurationChange ignored -> "ADD";
             case UpdateConfigurationChange ignored -> "UPDATE";
             case RemoveConfigurationChange ignored -> "REMOVE";
         };
-        
+
         NotificationRequest request = new NotificationRequest(
-                change.getId(), 
-                change.getConfigType().name(), 
+                change.getId(),
+                change.getConfigType().name(),
                 action
         );
-        
+
         notificationClient.sendNotification(request);
         log.info("Successfully sent notification for change: {}", change.getId());
     }

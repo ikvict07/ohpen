@@ -17,7 +17,7 @@ public final class ConfigurationChangeValidator {
         if (newValue == null) return;
         var validator = validators
                 .stream()
-                .filter(e -> e.dataType().name().equals(configurationType.dataType().name()))
+                .filter(e -> e.dataType().equals(configurationType.dataType()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No validator found for configuration type: " + configurationType.name()));
 

@@ -23,8 +23,9 @@ public class ConfigurationChangeListener {
         switch (event) {
             case AddConfigurationChange add -> log.info("Configuration ADDED: id={}, type={}, newValue={}",
                     add.getId(), add.getConfigType().name(), add.getNewValue());
-            case UpdateConfigurationChange update -> log.info("Configuration UPDATED: id={}, type={}, oldValue={}, newValue={}",
-                    update.getId(), update.getConfigType().name(), update.getPreviousValue(), update.getNewValue());
+            case UpdateConfigurationChange update ->
+                    log.info("Configuration UPDATED: id={}, type={}, oldValue={}, newValue={}",
+                            update.getId(), update.getConfigType().name(), update.getPreviousValue(), update.getNewValue());
             case RemoveConfigurationChange remove -> log.info("Configuration REMOVED: id={}, type={}, oldValue={}",
                     remove.getId(), remove.getConfigType().name(), remove.getPreviousValue());
         }

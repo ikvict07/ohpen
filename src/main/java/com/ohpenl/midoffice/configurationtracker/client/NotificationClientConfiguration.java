@@ -16,6 +16,7 @@ import java.util.Random;
 
 @Configuration
 public class NotificationClientConfiguration {
+    private final Random random = new Random();
 
     @Bean
     public NotificationClient notificationClient() {
@@ -23,7 +24,7 @@ public class NotificationClientConfiguration {
                 .baseUrl("http://mock-notification-service")
                 .requestInterceptor((request, body, execution) -> {
                     @SuppressWarnings("java:S2119")
-                    boolean isError = new Random().nextBoolean();
+                    boolean isError = random.nextBoolean();
                     //noinspection NullableProblems
                     return new ClientHttpResponse() {
                         @Override
