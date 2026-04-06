@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -23,7 +22,6 @@ class LoggerConfiguration {
     @Bean
     @Primary
     @Scope("prototype")
-    @Qualifier("logger")
     public Logger logger(LoggerFactory loggerFactory, ObjectProvider<InjectionPoint> injectionPointProvider) {
         return loggerFactory.createLogger(targetingClass(injectionPointProvider));
     }
@@ -39,8 +37,8 @@ class LoggerConfiguration {
             return LoggerConfiguration.class;
         }
         Method method = injectionPoint.getMethodParameter() != null
-            ? injectionPoint.getMethodParameter().getMethod()
-            : null;
+                ? injectionPoint.getMethodParameter().getMethod()
+                : null;
         boolean isSetter = method != null && method.getName().startsWith("set");
         if (method == null || isSetter) {
             return injectionPoint.getMember().getDeclaringClass();

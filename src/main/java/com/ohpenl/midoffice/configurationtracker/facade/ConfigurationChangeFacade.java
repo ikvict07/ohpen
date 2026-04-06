@@ -12,6 +12,7 @@ import com.ohpenl.midoffice.configurationtracker.service.ConfigurationChangeServ
 import com.ohpenl.midoffice.configurationtracker.service.ConfigurationTypeService;
 import com.ohpenl.midoffice.configurationtracker.validator.ConfigurationChangeValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class ConfigurationChangeFacade {
     private final ConfigurationChangeService configurationChangeService;
     private final ConfigurationTypeService configurationTypeService;
     private final ConfigurationChangeValidator configurationChangeValidator;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public ConfigurationChangeResponse applyConfigurationChange(Action action, String newValue, Long configTypeId, Long version) {
@@ -41,6 +43,9 @@ public class ConfigurationChangeFacade {
         ConfigurationChangeEntity entity = configurationChangeService.save(domain, version);
 
         domain.setId(entity.getId());
+        domain.setTimestamp(entity.getTimestamp());
+        
+        eventPublisher.publishEvent(domain);
 
         return ConfigurationChangeMapper.toApi(domain, entity.getVersion());
     }
