@@ -99,6 +99,20 @@ paths:
             type: integer
             format: int32
             default: 20
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            description: "Filter changes from this timestamp (inclusive)"
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            description: "Filter changes to this timestamp (inclusive)"
         - name: sort
           in: query
           required: false

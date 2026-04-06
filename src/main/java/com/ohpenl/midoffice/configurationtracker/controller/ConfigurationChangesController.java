@@ -5,17 +5,16 @@ import com.ohpenl.midoffice.configurationtracker.api.model.ApplyConfigurationCha
 import com.ohpenl.midoffice.configurationtracker.api.model.ConfigurationChangePage;
 import com.ohpenl.midoffice.configurationtracker.api.model.ConfigurationChangeResponse;
 import com.ohpenl.midoffice.configurationtracker.facade.ConfigurationChangeFacade;
-import com.ohpenl.midoffice.configurationtracker.mapper.ConfigurationChangeMapper;
-import com.ohpenl.midoffice.configurationtracker.repository.ConfigurationChangeRepository;
-import com.ohpenl.midoffice.configurationtracker.problem.exception.NotFoundException;
+import com.ohpenl.midoffice.configurationtracker.service.ChangeHistoryService;
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.OffsetDateTime;
 
 @RestController
 @RequestMapping("/")
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConfigurationChangesController implements ConfigurationChangesApi {
 
     private final ConfigurationChangeFacade configurationChangeFacade;
-    private final ConfigurationChangeRepository configurationChangeRepository;
+    private final ChangeHistoryService changeHistoryService;
 
     @Timed("configuration_changes.apply")
     @Counted("configuration_changes.apply.count")
@@ -43,19 +42,13 @@ public class ConfigurationChangesController implements ConfigurationChangesApi {
     @Counted("configuration_changes.get.count")
     @Override
     public ResponseEntity<ConfigurationChangeResponse> getConfigurationChange(Long id) {
-        var found = configurationChangeRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Configuration change not found"));
-        return ResponseEntity.ok(ConfigurationChangeMapper.toApi(ConfigurationChangeMapper.fromEntity(found), found.getVersion()));
+        return ResponseEntity.ok(changeHistoryService.getById(id));
     }
 
     @Timed("configuration_changes.list")
     @Counted("configuration_changes.list.count")
     @Override
-    public ResponseEntity<ConfigurationChangePage> listConfigurationChanges(String configTypeName, Integer page, Integer size, String sort) {
-        var pageable = PageRequest.of(page, size);
-        var resultPage = configTypeName != null 
-                ? configurationChangeRepository.findAllByConfigType_Name(configTypeName, pageable)
-                : configurationChangeRepository.findAll(pageable);
-        return ResponseEntity.ok(ConfigurationChangeMapper.toApiPage(resultPage));
+    public ResponseEntity<ConfigurationChangePage> listConfigurationChanges(String configTypeName, Integer page, Integer size, OffsetDateTime from, OffsetDateTime to, String sort) {
+        return ResponseEntity.ok(changeHistoryService.list(configTypeName, from, to, page, size));
     }
 }
