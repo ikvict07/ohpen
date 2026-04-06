@@ -12,7 +12,7 @@ tags:
 paths:
   /configuration-types:
     get:
-      tags: [ConfigurationTypes]
+      tags: [ ConfigurationTypes ]
       operationId: listConfigurationTypes
       summary: List all configuration types
       responses:
@@ -25,7 +25,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/ConfigurationTypeResponse"
     post:
-      tags: [ConfigurationTypes]
+      tags: [ ConfigurationTypes ]
       operationId: createConfigurationType
       summary: Create a new configuration type
       requestBody:
@@ -57,7 +57,7 @@ paths:
           type: integer
           format: int64
     get:
-      tags: [ConfigurationTypes]
+      tags: [ ConfigurationTypes ]
       operationId: getConfigurationType
       summary: Get configuration type by id
       responses:
@@ -76,7 +76,7 @@ paths:
 
   /configuration-changes:
     get:
-      tags: [ConfigurationChanges]
+      tags: [ ConfigurationChanges ]
       operationId: listConfigurationChanges
       summary: List configuration changes
       parameters:
@@ -113,7 +113,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ConfigurationChangePage"
     post:
-      tags: [ConfigurationChanges]
+      tags: [ ConfigurationChanges ]
       operationId: applyConfigurationChange
       summary: Record a new configuration change (ADD, UPDATE, REMOVE)
       requestBody:
@@ -151,7 +151,7 @@ paths:
           type: integer
           format: int64
     get:
-      tags: [ConfigurationChanges]
+      tags: [ ConfigurationChanges ]
       operationId: getConfigurationChange
       summary: Get configuration change by id
       responses:
@@ -172,15 +172,15 @@ components:
   schemas:
     DataType:
       type: string
-      enum: [STRING, NUMBER, BOOLEAN]
-      
+      enum: [ STRING, NUMBER, BOOLEAN ]
+
     Action:
       type: string
-      enum: [ADD, UPDATE, REMOVE]
+      enum: [ ADD, UPDATE, REMOVE ]
 
     ConfigurationTypeResponse:
       type: object
-      required: [id, name, dataType]
+      required: [ id, name, dataType ]
       properties:
         id:
           type: integer
@@ -192,7 +192,7 @@ components:
 
     CreateConfigurationTypeRequest:
       type: object
-      required: [name, dataType]
+      required: [ name, dataType ]
       properties:
         name:
           type: string
@@ -203,7 +203,7 @@ components:
 
     ConfigurationChangeResponse:
       type: object
-      required: [id, configType, previousValue, newValue, timestamp, version]
+      required: [ id, configType, previousValue, newValue, timestamp, version ]
       properties:
         id:
           type: integer
@@ -225,7 +225,7 @@ components:
 
     ConfigurationChangePage:
       type: object
-      required: [content, totalElements, totalPages, number, size]
+      required: [ content, totalElements, totalPages, number, size ]
       properties:
         content:
           type: array
@@ -251,7 +251,7 @@ components:
 
     ApplyConfigurationChangeRequest:
       type: object
-      required: [action, configTypeId]
+      required: [ action, configTypeId ]
       properties:
         action:
           $ref: "#/components/schemas/Action"
