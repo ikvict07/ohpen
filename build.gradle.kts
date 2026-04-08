@@ -26,10 +26,10 @@ dependencies {
     implementation(libs.spring.boot.starter.aop)
     implementation(libs.micrometer.tracing.bridge.otel)
     runtimeOnly(libs.opentelemetry.exporter.otlp)
-    compileOnly(libs.lombok)
     runtimeOnly(libs.h2)
     runtimeOnly(libs.micrometer.registry.otlp)
     runtimeOnly(libs.micrometer.registry.prometheus)
+    compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.boot.testcontainers)
@@ -37,6 +37,30 @@ dependencies {
     testCompileOnly(libs.lombok)
     testRuntimeOnly(libs.junit.platform.launcher)
     testAnnotationProcessor(libs.lombok)
+}
+
+val integrationTest: SourceSet by sourceSets.creating {
+    compileClasspath += sourceSets.main.get().output
+    runtimeClasspath += sourceSets.main.get().output
+}
+
+configurations[integrationTest.implementationConfigurationName].extendsFrom(configurations.testImplementation.get())
+configurations[integrationTest.runtimeOnlyConfigurationName].extendsFrom(configurations.testRuntimeOnly.get())
+configurations[integrationTest.compileOnlyConfigurationName].extendsFrom(configurations.testCompileOnly.get())
+configurations[integrationTest.annotationProcessorConfigurationName].extendsFrom(configurations.testAnnotationProcessor.get())
+
+
+val integrationTestTask = tasks.register<Test>("integrationTest") {
+    description = "Runs integration tests."
+    group = "verification"
+    testClassesDirs = integrationTest.output.classesDirs
+    classpath = integrationTest.runtimeClasspath
+    useJUnitPlatform()
+    shouldRunAfter(tasks.test)
+}
+
+tasks.check {
+    dependsOn(integrationTestTask)
 }
 
 openApiGenerate {

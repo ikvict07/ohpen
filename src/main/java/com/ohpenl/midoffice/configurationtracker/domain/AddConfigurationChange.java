@@ -22,7 +22,7 @@ public final class AddConfigurationChange extends ConfigurationChange {
 
     public RemoveConfigurationChange remove() {
         return new RemoveConfigurationChange(
-                this.getPreviousValue(),
+                this.getNewValue(),
                 this.getConfigType()
         );
     }
